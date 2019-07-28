@@ -1,8 +1,8 @@
 'use strict';
 
-import ReconnectingWebSocket from './ReconnectingWebSocket.js';
-console.log('test');
-window.socket = new ReconnectingWebSocket('ws://localhost:3000');
+// import ReconnectingWebSocket from './ReconnectingWebSocket.js';
+// console.log('test');
+// window.socket = new ReconnectingWebSocket('ws://localhost:3000');
 
 const viewFunctions = {
   participant: require('./participant'),
@@ -16,15 +16,15 @@ const viewFunctions = {
    of the <script> element in the document.
 */
 
-// (function _trainerNeededApp(root, storage) {
-//   const scriptElement = root.querySelector('#trainer_needed_script');
-//   if (!scriptElement) {
-//     throw new Error('Script element not found');
-//   }
-//   const operatingMode = scriptElement.dataset.mode;
-//   if (viewFunctions[operatingMode]) {
-//     viewFunctions[operatingMode](root, storage);
-//   } else {
-//     throw new Error('Invalid operating mode specified for the Trainer Needed entry point');
-//   }
-// })(document, window.localStorage);
+(function _trainerNeededApp(root, storage) {
+  const scriptElement = root.querySelector('#trainer_needed_script');
+  if (!scriptElement) {
+    throw new Error('Script element not found');
+  }
+  const operatingMode = scriptElement.dataset.mode;
+  if (viewFunctions[operatingMode]) {
+    viewFunctions[operatingMode](root, storage);
+  } else {
+    throw new Error('Invalid operating mode specified for the Trainer Needed entry point');
+  }
+})(document, window.localStorage);

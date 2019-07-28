@@ -1,6 +1,6 @@
 'use strict';
 
-import EventEmitter from 'eventemitter2';
+const EventEmitter = require('eventemitter2');
 
 class ReconnectingWebSocket extends EventEmitter {
    constructor(websocketUrl) {
@@ -44,4 +44,4 @@ class ReconnectingWebSocket extends EventEmitter {
     }
 }
 
-export default ReconnectingWebSocket;
+module.exports = ReconnectingWebSocket;

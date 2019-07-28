@@ -8,7 +8,7 @@ const path = require('path');
 const colors = require('colors');
 const fs = require('fs');
 const WebSocket = require('ws');
-
+const uuidv4 = require('uuid/v4');
 
 const server = http.createServer(app);
 
@@ -19,10 +19,23 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
+    let decodedMessage = JSON.parse(message);
+    let response = 'wrong type name'
+    switch (decodedMessage.type) {
+      case 'register':
+          response = {
+            'type': 'registered',
+            'user_name': decodedMessage.user_name,
+            'user_group': decodedMessage.user_group,
+            'user_id': uuidv4(),
+          }
+        break;
+    
+      default:
+        break;
+    }
+    ws.send(JSON.stringify(response));
   });
-
-  ws.send('something');
 });
 
 server.listen(3000);

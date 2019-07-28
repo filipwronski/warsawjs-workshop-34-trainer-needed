@@ -1,9 +1,11 @@
 'use strict';
-
+const ReconnectingWebSocket = require('./ReconnectingWebSocket.js');
 const { show, hide } = require('./dom');
 const makeStore = require('./store');
 
 module.exports = function participantView(root, storage) {
+  const socket = new ReconnectingWebSocket('ws://localhost:3000');
+
   const store = makeStore({
     error: null,
     isRegistered: (
@@ -16,6 +18,12 @@ module.exports = function participantView(root, storage) {
   store.addListener(render);
 
   function register(formValues) {
+    let message = JSON.stringify({
+      "type": "register",
+      "user_name": formValues.user_name,
+      "user_group": formValues.user_group,
+    });
+    socket.send(message);
     // TODO: Connect to the server, ask for a new user ID, then bind to the obtained ID.
     // Finally, when done, save the user ID, name and group.
     console.log('register: not implemented');

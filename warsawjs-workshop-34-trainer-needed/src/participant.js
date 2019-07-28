@@ -5,7 +5,14 @@ const makeStore = require('./store');
 
 module.exports = function participantView(root, storage) {
   const socket = new ReconnectingWebSocket('ws://localhost:3000');
-
+  socket.addEventListener('message', (event) => {
+    let decodedMessage = JSON.parse(event.data);
+    if (decodedMessage.type === 'registered') {
+      storage.setItem('user_id', decodedMessage.user_id);
+      storage.setItem('user_name', decodedMessage.user_name);
+      storage.setItem('user_group', decodedMessage.user_group);
+    }
+  })
   const store = makeStore({
     error: null,
     isRegistered: (
@@ -26,7 +33,7 @@ module.exports = function participantView(root, storage) {
     socket.send(message);
     // TODO: Connect to the server, ask for a new user ID, then bind to the obtained ID.
     // Finally, when done, save the user ID, name and group.
-    console.log('register: not implemented');
+    // console.log('register: not implemented');
     // storage.setItem('user_id', TODO);
     // storage.setItem('user_name', formValues.user_name);
     // storage.setItem('user_group', formValues.user_group);
